@@ -1,12 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const shopRouter = require('./router/shopRouter');
-const userRouter = require('./router/userRouter');
-const productRouter = require('./router/productRouter');
-const orderRouter = require('./router/orderRouter');
-const authRouter = require('./router/authRouter');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const apiRouter = require('./router/apiRouter');
 const cors = require('cors');
 
 let backend = express();
@@ -28,11 +24,7 @@ backend.use(cors({
 }))
 backend.use(bodyParser.urlencoded({ extended: false }));
 backend.use(bodyParser.json());
-backend.use('/shop', shopRouter);
-backend.use('/user', userRouter);
-backend.use('/product', productRouter);
-backend.use('/order', orderRouter);
-backend.use('/auth', authRouter);
+backend.use('/api', apiRouter);
 
 
 let host = 'mongodb://FoodyHoLa:Hola123@ds243212.mlab.com:43212/foodyhoalac';
