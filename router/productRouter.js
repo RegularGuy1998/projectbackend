@@ -6,6 +6,7 @@ const productModel = require("../model/productModel");
 //Lấy thông tin sản phẩm
 productRouter.get("/:id", (req, res) => {
     productModel.findById(req.params.id)
+        .populate('shopID', 'title description')
         .then(productFound => {
             if(!productFound) res.status(404).send({success: 0, message: 'Product Not Found'})
             else res.send({success: 1, productFound});
