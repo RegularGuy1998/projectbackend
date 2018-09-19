@@ -3,13 +3,21 @@ const userRouter = express.Router();
 const userModel = require("../model/userModel");
 
 //Lấy thông tin người dùng
-userRouter.get("/:userId", (req, res) => {
-    userModel.find({facebookID:req.params.userId}, (err, user) => {
-        console.log(user)
+userRouter.get("/:userIdfb", (req, res) => {
+    userModel.find({facebookID:req.params.userIdfb}, (err, user) => {
         if (err) res.status(500).send({ success: 0, err })
         else res.send({ success: 1, user })
     })
-})
+}) 
+
+
+userRouter.get("/info/:id", (req, res) => {
+    console.log(req.params.id)
+    userModel.findById(req.params.id, (err, user) => {
+        if (err) res.status(500).send({ success: 0, err })
+        else res.send({ success: 1, user })
+    })
+}) 
 
 //Lấy thông tin các shop của người dùng
 userRouter.get("/:userId/shop", (req, res) => {
@@ -59,6 +67,7 @@ userRouter.put('/:userId', (req, res) => {
 
 //Lấy tất cả User
 userRouter.get('/', (req,res) => {
+    console.log('aaaa')
     userModel.find({})
         .then(userFound => {
             res.status(201).send({ success: 1, userFound })

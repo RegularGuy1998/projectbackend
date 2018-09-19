@@ -21,6 +21,26 @@ productRouter.post("/", (req, res) => {
         .then(productCreated => res.send({success: 1, productCreated}))
         .catch(err => res.status(500).send({success: 0, err})
     )
+}) 
+
+productRouter.put('/:id', (req, res) => {
+    const productUpdate = { name, image, price } = req.body;
+    productModel.findById(req.params.id)
+        .then(productFound => {
+            if (!productFound) {
+                res.status(404).send({ success: 0, message: 'User not found' });
+            } else {
+                for (const key in productFound) {
+                    if (productUpdate[key]) {
+                        productFound[key] = productUpdate[key];
+                    }
+                }
+                return productFound.save();
+            }
+        })
+        .then(productUpdated => res.send({ success: 1, productUpdated }))
+        .catch(err => res.send(500).status({ success: 0, err }));
 })
+
 
 module.exports = productRouter;
